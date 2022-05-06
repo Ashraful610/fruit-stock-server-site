@@ -28,7 +28,36 @@ async function run(){
                 const fruits = await cursor.toArray()
                 res.send(fruits)
             })
-            
+
+            // get one fruits data 
+            app.get('/fruits/:id', async(req , res) => {
+                const id = req.params.id
+                const query = {_id:ObjectId(id)}
+                const fruit = await fruitsCollection.findOne(query)
+                res.send(fruit)
+            })
+
+            // post 
+            app.post('/fruit' , async(req , res) => {
+                const fruit = req.body
+               
+                const result = await fruitsCollection.insertOne(fruit)
+                res.send(result)
+            })
+            // update fruit quantity
+            app.put('/fruits/:id' , async (req , res) => {
+                const id = req.params.id
+                const newQuantity = req.body
+                const filter = {_id:ObjectId(id)}
+                const options = { upsert: true };
+                const updateQuantity = {
+                    $set:{
+                        quantity:newQuantity
+                    }
+                }
+                const result = await fruitsCollection.updateOne(filter , updateQuantity , options)
+                res.send(result)
+            })
             // delete fruit
             app.delete('/fruits/:id' , async(req , res)=> {
                 const id = req.params.id
