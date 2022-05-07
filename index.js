@@ -40,24 +40,23 @@ async function run(){
             // post 
             app.post('/fruit' , async(req , res) => {
                 const fruit = req.body
-               
                 const result = await fruitsCollection.insertOne(fruit)
                 res.send(result)
             })
+
             // update fruit quantity
             app.put('/fruits/:id' , async (req , res) => {
                 const id = req.params.id
-                const newQuantity = req.body
+                const newFruit = req.body
                 const filter = {_id:ObjectId(id)}
                 const options = { upsert: true };
-                const updateQuantity = {
-                    $set:{
-                        quantity:newQuantity
-                    }
+                const updateFruit = {
+                    $set:newFruit
                 }
-                const result = await fruitsCollection.updateOne(filter , updateQuantity , options)
+                const result = await fruitsCollection.updateOne(filter , updateFruit , options)
                 res.send(result)
             })
+
             // delete fruit
             app.delete('/fruits/:id' , async(req , res)=> {
                 const id = req.params.id
