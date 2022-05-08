@@ -37,7 +37,7 @@ async function run(){
                 res.send(fruit)
             })
 
-            // post 
+            //  new fruit post 
             app.post('/fruit' , async(req , res) => {
                 const fruit = req.body
                 const result = await fruitsCollection.insertOne(fruit)
